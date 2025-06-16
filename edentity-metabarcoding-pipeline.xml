@@ -1,0 +1,229 @@
+<tool id="edentity-metabarcoding-pipeline" name="eDentity Metabarcoding Pipeline" version="1.4.1">
+    <description>Pipeline for metabarcoding analysis</description>
+    
+    <!-- REQUIREMENTS SECTION -->
+    <requirements>
+        <requirement type="package" version="3.12.8">python</requirement>
+        <requirement type="package" version="8.25.5">Snakemake</requirement> 
+        <requirement type="package" version="0.24.0">fastp</requirement>     
+        <requirement type="package" version="4.9">cutadapt</requirement>
+        <requirement type="package" version="2.28.1">vsearch</requirement>
+        <requirement type="package" version="1.84">biopython</requirement>
+        <requirement type="package" version="1.27.1">multiqc</requirement>
+        <requirement type="package" version="0.5.2">nbitk</requirement>
+    </requirements>
+
+    <!-- COMMAND SECTION -->
+    <command><![CDATA[
+    python $__tool_directory__/galaxy_client.py --project_name $dataType.project_name 
+    --dataType $dataType.data_type 
+    --input_fastqs $dataType.input_fastqs
+    --n_max $fastp.n_max 
+    --average_qual $fastp.average_qual 
+    --length_required $fastp.length_required
+    --fastq_maxdiffpct $merge.fastq_maxdiffpct 
+    --fastq_maxdiff $merge.fastq_maxdiffs 
+    --fastq_minovlen $merge.fastq_minovlen
+    --forward_primer $trimming.forward_primer 
+    --reverse_primer $trimming.reverse_primer --anchored $trimming.anchored
+    --discard_untrimmed $trimming.discard_untrimmed
+    --minlen $Filter.minlen 
+    --maxlen $Filter.maxlen 
+    --maxee $Filter.maxee 
+    --fasta_width $Dereplication.fasta_width
+    --alpha $Denoise.alpha 
+    --minsize $Denoise.minsize 
+    --ESV_table_output $ESV_table 
+    --ESV_fasta_zip $ESV_fasta_zip 
+    --summary_report $summary_report  
+    --multiqc_report $multiqc_report 
+    --json_reports $json_reports
+
+    
+    ]]></command>
+    
+    <!-- INPUT CONFIGURATION -->
+    <inputs>
+        <section name="dataType" title="Data" expanded="true" >
+            <param name="project_name" type="text" optional="false" label="Project Name" help="A name for your analysis, e.g eDentity, CO1_analysis, Must be one word"/>
+            <param name="data_type" type="select" label="Select sequencer Data Type" optional="false">
+                <option value="Illumina" selected="true">Illumina</option>
+                <option value="AVITI">AVITI</option>
+            </param>  
+            <param name="input_fastqs" type="data" format="zip" optional="false" label="Input compressed Fastq(.gz) Files (.zip)"/>   
+	</section>
+        <!--Fastp-->
+        <section name="fastp" title="General Quality Control using Fastp" expanded="true">
+            <param name="n_max" type="integer" value="0" min="0" max="5" label="Maximum N bases allowed"/>
+            <param name="average_qual" type="integer" value="25" min="15" max="30" label="Average read Qscore"/>
+            <param name="length_required" type="integer" value="100" min="50" max="300" label="Minimum read length"/>            
+        </section>
+
+        <!-- Merging -->
+
+        <section name="merge" title="Merge Pairs: vsearch fastq_mergepairs" expanded="true">
+            <param name="fastq_maxdiffpct" type="integer" 
+            value="100" min="80" max="100" 
+            label="maximum percentage diff. bases in overlap; default is 100"
+            help="Sets the maximum allowed percentage of differences (mismatches) 
+            between paired-end reads during the merging step; if the mismatch 
+            rate exceeds this threshold, the pair is not merged."/>
+
+            <param name="fastq_maxdiffs" type="integer" 
+            value="5" min="0" label="maximum number of base mismatches in overlap"
+            help="Specify the maximum number of non-matching nucleotides 
+            allowed in the overlap region. That option has a strong
+             influence on the merging success rate"/>
+
+            <param name="fastq_minovlen" type="integer" 
+            value="10" min="5" label="minimum length of overlap between read merged pairs, default is 10"/>     
+        </section>
+        
+        <!-- Trimming -->
+        <section name="trimming" title="Trim Primers: cutadapt" expanded="true">
+            <param name="forward_primer" type="text" optional="false" label="Sequence of the forward primer" help="Separate by comma  if multiple primers we used eg CTAGACTCGTCATCGATGAAGAACGCAG,CTAGACTCGTCAACGATGAAGAACGCAG,CTAGACTCGTCACCGATGAAGAACGCAG"/>
+            <param name="reverse_primer" type="text" optional="false" label="Sequence of the reverse primer" help="Separate by comma if multiple primers we used eg TCCTSCGCTTATTGATATGC,GTGYCAGCMGCCGCGGTAA,GGACTACNVGGGTWTCTAAT"/>
+            <param name="anchored" type="select" selected="Yes" label="are the primers anchored?" 
+                help="Set to true if the primers are anchored at both ends of the reads.">
+                <option value="False" selected="true">False</option>
+                <option value="True">True</option>
+            </param>
+            <param name="discard_untrimmed" type="select" selected="Yes" label="Discard untrimmed reads" 
+                help="Set to false if you want to keep reads that do not have primers.">
+                <option value="True" selected="true">True</option>
+                <option value="False">False</option>
+            </param>
+           
+        </section>
+        
+        <!-- Filtering -->
+        <section name="Filter" title="Quality Filtering: vsearch fastq_filter" expanded="true">
+            <param name="minlen" type="integer" value="150"
+                min="100" max="1500"
+                label="minlen"
+                help="Specifies the minimum length of sequences that will be 
+                retained after merging paired-end reads; sequences shorter than 
+                this threshold will be discarded."/>
+            <param name="maxlen" type="integer" value="700"
+                min="200" max="2000"
+                label="maxlen"
+                help="Sets the maximum allowed length for merged sequences; 
+                sequences longer than this threshold will be truncated or 
+                discarded during the merging process."/>
+            <param name="maxee" type="integer" value="1"
+                min="0" max="2"
+                label="maxee"
+                help="Sets the maximum allowed expected errors (EE) for a sequence; 
+                sequences with an expected error rate higher than this threshold will 
+                be discarded during quality filtering or clustering steps."/>
+        </section>
+        
+        <!-- Dereplication -->
+        <section name="Dereplication" title="Dereplication: vsearch fastx_uniques" expanded="false">
+            <param name="fasta_width" type="integer" value="0" label="fasta_width"
+            help="Fasta files produced by vsearch are wrapped (sequences are written on lines of integer
+                nucleotides, 80 by default). Set that value to zero to eliminate the wrapping (Recommended)."/>
+        </section>
+
+        <!-- Denoising -->
+        <section name="Denoise" title="Denoising: vsearch cluster_unoise" expanded="true">
+            <param name="alpha" type="integer" value="2" label="alpha"
+            help="Threshold for what is considered a distinct sequence. Example;
+            Alpha  value of 2 means the sequences must differ by at least 2 
+            substitutions to be considered unique"/>
+            <param name="minsize" type="integer" value="4" label="minsize"
+            help="Defines the minimum number of sequences required for a cluster to be considered valid;
+            if a cluster contains fewer sequences than the specified minsize, it will be discarded."/>
+        </section>
+
+        
+        
+    </inputs>
+
+    <!-- OUTPUT CONFIGURATION -->
+    <!-- 
+        
+        This section defines the outputs of the edentity-metabarcoding-pipeline tool in Galaxy.
+
+        Outputs:
+        - ESV_table: A TSV file containing the ESV (Exact Sequence Variant) table.
+        - summary_report: A TSV file containing a summary report of the analysis.
+        - ESV_fasta_zip: A ZIP file containing the ESV sequences in FASTA format.
+        - multiqc_report: MultiQC report for quality control summary after trimming.
+    -->
+    <outputs>
+        <data format="tsv"  name="ESV_table" label="${dataType.project_name}_ESV_table.tsv"/>
+        <data format="tsv"  name="summary_report" label="${dataType.project_name}_summary_report.tsv"/>
+        <data format="zip"  name="ESV_fasta_zip" label="${dataType.project_name}_ESV_sequences_fasta.zip"/>
+        <data format="html"  name="multiqc_report" label="${dataType.project_name}_Quality_control_report.html"/>
+        <data format="zip" name="json_reports" label="${dataType.project_name}_json_reports.zip"/>
+    </outputs>
+    
+    <!-- test section -->
+    <tests>
+        <test>
+            <param name="project_name" value="test_project"/>
+            <param name="data_type" value="Illumina"/>
+            <param name="input_fastqs" value="galaxyTestData.zip"/>
+            <param name="n_max" value="0"/>
+            <param name="average_qual" value="25"/>
+            <param name="length_required" value="100"/>
+            <param name="fastq_maxdiffpct" value="100"/>
+            <param name="fastq_maxdiffs" value="5"/>
+            <param name="fastq_minovlen" value="10"/>
+            <param name="forward_primer" value="AAACTCGTGCCAGCCACC"/>
+            <param name="reverse_primer" value="GGGTATCTAATCCCAGTTT"/>
+            <param name="anchored" value="False"/>
+            <param name="discard_untrimmed" value="True"/>
+            <param name="minlen" value="150"/>
+            <param name="maxlen" value="700"/>
+            <param name="maxee" value="1"/>
+            <param name="fasta_width" value="0"/>
+            <param name="alpha" value="2"/>
+            <param name="minsize" value="4"/>
+            <output name="ESV_table" file="test_ESV_table.tsv" ftype="tsv"/>
+            <output name="summary_report" file="test_summary_report.tsv" ftype="tsv"/>
+            <output name="ESV_fasta_zip" file="test_ESV_sequences_fasta.zip" ftype="zip" compare="sim_size" delta="100"/>
+            <output name="multiqc_report" file="test_Quality_control_report.html" ftype="html" compare="sim_size" delta="5000"/>
+            <output name="json_reports" file="test_json_reports.zip" ftype="zip" compare="sim_size" delta="100"/>
+        </test>
+    </tests>
+    
+    <!-- HELP/DOCUMENTATION SECTION -->    
+    <help>
+
+
+        .. class:: infomark
+
+    **eDentity Metabarcoding Pipeline**
+
+    This pipeline is based on the vsearch tool for metabarcoding analysis. 
+    It generates Exact Sequence Variants (ESVs). 
+    
+        .. class:: warningmark
+
+
+    Note that this pipeline does not (currently) perform taxonomic identification; 
+    the ESVs produced can be used in downstream identification process.
+
+        .. class:: infomark
+
+        **Outputs**
+    - **ESV_table**: A tsv file containing the ESV (Exact Sequence Variant) table: These are counts of each ESV per sample.
+    - **summary_report**: A summary of the number of reads passing each step of analysis; e.g how many reads merged, what % was trimmed.
+    - **ESV_fasta_zip**: A ZIP file containing the ESV sequences in FASTA format: This can be used for taxonomic identification.
+    - **Quality_control_report**: A report with general quality metrics such as Q scores, sequence length, % GC, % of N bases, % of primer trimmed reads.
+    
+        
+  
+    
+    .. class:: infomark
+
+    **References**
+
+    - vsearch: https://doi.org/10.7717/peerj.2584
+    - APSCALE: https://doi.org/10.1093/bioinformatics/btac588
+    - Technical details: https://gitlab.com/naturalis/bii/bioinformatics/edentity/pipelines/edentity-metabarcoding-pipeline.git
+
+    </help>
+</tool>
