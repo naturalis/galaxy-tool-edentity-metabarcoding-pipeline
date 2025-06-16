@@ -1,1 +1,2 @@
-# galaxy-tool-edentity-metabarcoding-pipeline
+# eDentity-metabarcoding-pipeline
+
