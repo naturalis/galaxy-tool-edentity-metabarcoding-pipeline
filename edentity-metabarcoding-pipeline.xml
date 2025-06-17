@@ -4,13 +4,14 @@
     <!-- REQUIREMENTS SECTION -->
     <requirements>
         <requirement type="package" version="3.12.8">python</requirement>
-        <requirement type="package" version="8.25.5">Snakemake</requirement> 
         <requirement type="package" version="0.24.0">fastp</requirement>     
         <requirement type="package" version="4.9">cutadapt</requirement>
         <requirement type="package" version="2.28.1">vsearch</requirement>
         <requirement type="package" version="1.84">biopython</requirement>
         <requirement type="package" version="1.27.1">multiqc</requirement>
-        <requirement type="package" version="0.5.2">nbitk</requirement>
+        <requirement type="package" version="0.5.9">nbitk</requirement>
+        <requirement type="package" version="1.4.4">edentity</requirement>
+        <requirement type="package" version="1.30.0">polars</requirement>
     </requirements>
 
     <!-- COMMAND SECTION -->
