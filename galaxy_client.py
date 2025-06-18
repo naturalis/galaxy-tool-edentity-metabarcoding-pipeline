@@ -102,11 +102,14 @@ def outputs(snakemake_work_dir, args_dict):
     shutil.move(fastp_multiqc_report_path, args_dict['multiqc_report'])
 
     # zip ESV fasta to the ESV_fastas zip file
-    ESV_fasta = os.path.join(snakemake_work_dir, "Results", "ESVs_fasta")
-    with zipfile.ZipFile(args_dict['ESV_fasta_zip'], 'w', zipfile.ZIP_DEFLATED) as zipf:
-        fasta_seqs = [os.path.join(ESV_fasta, file) for file in os.listdir(ESV_fasta)]
-        for fasta in fasta_seqs:
-            zip_file(fasta, zipf)
+    ESV_fasta = os.path.join(snakemake_work_dir, "Results",
+            "ESVs_fasta", f'{args_dict['project_name']}_esv_sequences.fasta')
+    shutil.move(ESV_fasta, args_dict['ESV_sequences'])
+
+    # with zipfile.ZipFile(args_dict['ESV_fasta_zip'], 'w', zipfile.ZIP_DEFLATED) as zipf:
+    #     fasta_seqs = [os.path.join(ESV_fasta, file) for file in os.listdir(ESV_fasta)]
+    #     for fasta in fasta_seqs:
+    #         zip_file(fasta, zipf)
 
     # zip json reports
     json_reports = [json for json in os.listdir(os.path.join(snakemake_work_dir, "Results", "report")) if json.endswith(".json")]
@@ -141,7 +144,7 @@ def main():
     parser.add_argument('--minsize', help='Minimum abundance for ESV clusters', required=True)
     parser.add_argument('--create_extended_json_reports', help='Create extended JSON reports', required=False, default=False)
     parser.add_argument('--ESV_table_output', help='Output file path for ESV abundance table', required=True)
-    parser.add_argument('--ESV_fasta_zip', help='Output file path for zipped ESV FASTA files', required=True)
+    parser.add_argument('--ESV_sequences', help='Output file path for ESV FASTA file', required=True)
     parser.add_argument('--summary_report', help='Output file path for summary report', required=True)
     parser.add_argument('--multiqc_report', help='Output file path for MultiQC report', required=True)
     parser.add_argument('--conda_prefix', help='Path to conda environment prefix', required=False)

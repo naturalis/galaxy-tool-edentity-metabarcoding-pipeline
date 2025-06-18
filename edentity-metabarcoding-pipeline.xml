@@ -155,7 +155,7 @@
     <outputs>
         <data format="tsv"  name="ESV_table" label="${dataType.project_name}_ESV_table.tsv"/>
         <data format="tsv"  name="summary_report" label="${dataType.project_name}_summary_report.tsv"/>
-        <data format="zip"  name="ESV_fasta_zip" label="${dataType.project_name}_ESV_sequences_fasta.zip"/>
+        <data format="fasta"  name="ESV_sequences" label="${dataType.project_name}_ESV_sequences.fasta"/>
         <data format="html"  name="multiqc_report" label="${dataType.project_name}_Quality_control_report.html"/>
         <data format="zip" name="json_reports" label="${dataType.project_name}_json_reports.zip"/>
     </outputs>
@@ -184,7 +184,7 @@
             <param name="minsize" value="4"/>
             <output name="ESV_table" file="test_ESV_table.tsv" ftype="tsv"/>
             <output name="summary_report" file="test_summary_report.tsv" ftype="tsv"/>
-            <output name="ESV_fasta_zip" file="test_ESV_sequences_fasta.zip" ftype="zip" compare="sim_size" delta="100"/>
+            <output name="ESV_sequences" file="test_ESV_sequences_fasta.zip" ftype="zip" compare="sim_size" delta="100"/>
             <output name="multiqc_report" file="test_Quality_control_report.html" ftype="html" compare="sim_size" delta="5000"/>
             <output name="json_reports" file="test_json_reports.zip" ftype="zip" compare="sim_size" delta="100"/>
         </test>
