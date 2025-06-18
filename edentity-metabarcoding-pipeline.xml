@@ -84,12 +84,12 @@
         <section name="trimming" title="Trim Primers: cutadapt" expanded="true">
             <param name="forward_primer" type="text" optional="false" label="Sequence of the forward primer" help="Separate by comma  if multiple primers we used eg CTAGACTCGTCATCGATGAAGAACGCAG,CTAGACTCGTCAACGATGAAGAACGCAG,CTAGACTCGTCACCGATGAAGAACGCAG"/>
             <param name="reverse_primer" type="text" optional="false" label="Sequence of the reverse primer" help="Separate by comma if multiple primers we used eg TCCTSCGCTTATTGATATGC,GTGYCAGCMGCCGCGGTAA,GGACTACNVGGGTWTCTAAT"/>
-            <param name="anchored" type="select" selected="Yes" label="are the primers anchored?" 
+            <param name="anchored" type="select" label="are the primers anchored?" 
                 help="Set to true if the primers are anchored at both ends of the reads.">
                 <option value="False" selected="true">False</option>
                 <option value="True">True</option>
             </param>
-            <param name="discard_untrimmed" type="select" selected="Yes" label="Discard untrimmed reads" 
+            <param name="discard_untrimmed" type="select" label="Discard untrimmed reads" 
                 help="Set to false if you want to keep reads that do not have primers.">
                 <option value="True" selected="true">True</option>
                 <option value="False">False</option>
@@ -163,25 +163,39 @@
     <!-- test section -->
     <tests>
         <test>
+        <section name="dataType" >
             <param name="project_name" value="test_project"/>
             <param name="data_type" value="Illumina"/>
             <param name="input_fastqs" value="galaxyTestData.zip"/>
+        </section>
+        <section name="fastp">
             <param name="n_max" value="0"/>
             <param name="average_qual" value="25"/>
             <param name="length_required" value="100"/>
+        </section>
+        <section name="merge">
             <param name="fastq_maxdiffpct" value="100"/>
             <param name="fastq_maxdiffs" value="5"/>
             <param name="fastq_minovlen" value="10"/>
+        </section>
+            <section name="trimming">
             <param name="forward_primer" value="AAACTCGTGCCAGCCACC"/>
             <param name="reverse_primer" value="GGGTATCTAATCCCAGTTT"/>
             <param name="anchored" value="False"/>
             <param name="discard_untrimmed" value="True"/>
+        </section>
+        <section name="Filter">
             <param name="minlen" value="150"/>
             <param name="maxlen" value="700"/>
             <param name="maxee" value="1"/>
+        </section>
+        <section name="Dereplication">
             <param name="fasta_width" value="0"/>
+        </section>
+        <section name="Denoise">
             <param name="alpha" value="2"/>
             <param name="minsize" value="4"/>
+        </section>
             <output name="ESV_table" file="test_ESV_table.tsv" ftype="tsv"/>
             <output name="summary_report" file="test_summary_report.tsv" ftype="tsv"/>
             <output name="ESV_sequences" file="test_ESV_sequences_fasta.zip" ftype="zip" compare="sim_size" delta="100"/>
@@ -191,7 +205,7 @@
     </tests>
     
     <!-- HELP/DOCUMENTATION SECTION -->    
-    <help>
+ <help><![CDATA[
 
 
         .. class:: infomark
@@ -207,24 +221,42 @@
     Note that this pipeline does not (currently) perform taxonomic identification; 
     the ESVs produced can be used in downstream identification process.
 
+
         .. class:: infomark
 
         **Outputs**
+
     - **ESV_table**: A tsv file containing the ESV (Exact Sequence Variant) table: These are counts of each ESV per sample.
     - **summary_report**: A summary of the number of reads passing each step of analysis; e.g how many reads merged, what % was trimmed.
     - **ESV_fasta_zip**: A ZIP file containing the ESV sequences in FASTA format: This can be used for taxonomic identification.
     - **Quality_control_report**: A report with general quality metrics such as Q scores, sequence length, % GC, % of N bases, % of primer trimmed reads.
-    
-        
-  
-    
-    .. class:: infomark
 
-    **References**
 
-    - vsearch: https://doi.org/10.7717/peerj.2584
-    - APSCALE: https://doi.org/10.1093/bioinformatics/btac588
-    - Technical details: https://gitlab.com/naturalis/bii/bioinformatics/edentity/pipelines/edentity-metabarcoding-pipeline.git
+]]></help>
 
-    </help>
+    <citations>
+        <citation type="bibtex">
+            @misc{barcode_validator,
+                author = {Naturalis Biodiversity Center},
+                title = {eDentity metabarcoding Pipeline},
+                year = {2025},
+                url = {https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline.git}
+            }
+            @article{rognes2016vsearch,
+                title={VSEARCH: a versatile open source tool for metagenomics},
+                author={Rognes, Torbjørn and Flouri, Tomáš and Nichols, Ben and Quince, Christopher and Mahé, Frédéric},
+                journal={PeerJ},
+                year={2016},
+                publisher={PeerJ Inc.},
+                doi={10.7717/peerj.2584}
+            }
+            @article{aps2022apscale,
+                title={APSCALE: advanced pipeline for simple yet comprehensive analyses of DNA metabarcoding data},
+                author={Buchner, Dominik and Macher, Till-Hendrik and Leese, Florian},
+                journal={Bioinformatics},
+                year={2022},
+                doi={10.1093/bioinformatics/btac588}
+            }
+        </citation>
+    </citations>
 </tool>
