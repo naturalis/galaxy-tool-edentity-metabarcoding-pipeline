@@ -35,7 +35,7 @@
     --alpha $Denoise.alpha 
     --minsize $Denoise.minsize 
     --ESV_table_output $ESV_table 
-    --ESV_fasta_zip $ESV_fasta_zip 
+    --ESV_sequences $ESV_sequences 
     --summary_report $summary_report  
     --multiqc_report $multiqc_report 
     --json_reports $json_reports
@@ -198,7 +198,7 @@
         </section>
             <output name="ESV_table" file="test_ESV_table.tsv" ftype="tsv"/>
             <output name="summary_report" file="test_summary_report.tsv" ftype="tsv"/>
-            <output name="ESV_sequences" file="test_ESV_sequences_fasta.zip" ftype="zip" compare="sim_size" delta="100"/>
+            <output name="ESV_sequences" file="test_ESV_sequences_fasta.fasta" ftype="fasta" compare="sim_size" delta="100"/>
             <output name="multiqc_report" file="test_Quality_control_report.html" ftype="html" compare="sim_size" delta="5000"/>
             <output name="json_reports" file="test_json_reports.zip" ftype="zip" compare="sim_size" delta="100"/>
         </test>
@@ -228,7 +228,7 @@
 
     - **ESV_table**: A tsv file containing the ESV (Exact Sequence Variant) table: These are counts of each ESV per sample.
     - **summary_report**: A summary of the number of reads passing each step of analysis; e.g how many reads merged, what % was trimmed.
-    - **ESV_fasta_zip**: A ZIP file containing the ESV sequences in FASTA format: This can be used for taxonomic identification.
+    - **ESV_sequence.fasta**: A fasta file containing the ESV sequences. This can be used for taxonomic identification.
     - **Quality_control_report**: A report with general quality metrics such as Q scores, sequence length, % GC, % of N bases, % of primer trimmed reads.
 
 
@@ -237,25 +237,29 @@
     <citations>
         <citation type="bibtex">
             @misc{barcode_validator,
-                author = {Naturalis Biodiversity Center},
-                title = {eDentity metabarcoding Pipeline},
-                year = {2025},
-                url = {https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline.git}
+            author = {Naturalis Biodiversity Center},
+            title = {eDentity metabarcoding Pipeline},
+            year = {2025},
+            url = {https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline.git}
             }
+        </citation>
+        <citation type="bibtex">
             @article{rognes2016vsearch,
-                title={VSEARCH: a versatile open source tool for metagenomics},
-                author={Rognes, Torbjørn and Flouri, Tomáš and Nichols, Ben and Quince, Christopher and Mahé, Frédéric},
-                journal={PeerJ},
-                year={2016},
-                publisher={PeerJ Inc.},
-                doi={10.7717/peerj.2584}
+            title={VSEARCH: a versatile open source tool for metagenomics},
+            author={Rognes, Torbjørn and Flouri, Tomáš and Nichols, Ben and Quince, Christopher and Mahé, Frédéric},
+            journal={PeerJ},
+            year={2016},
+            publisher={PeerJ Inc.},
+            doi={10.7717/peerj.2584}
             }
+        </citation>
+        <citation type="bibtex">
             @article{aps2022apscale,
-                title={APSCALE: advanced pipeline for simple yet comprehensive analyses of DNA metabarcoding data},
-                author={Buchner, Dominik and Macher, Till-Hendrik and Leese, Florian},
-                journal={Bioinformatics},
-                year={2022},
-                doi={10.1093/bioinformatics/btac588}
+            title={APSCALE: advanced pipeline for simple yet comprehensive analyses of DNA metabarcoding data},
+            author={Buchner, Dominik and Macher, Till-Hendrik and Leese, Florian},
+            journal={Bioinformatics},
+            year={2022},
+            doi={10.1093/bioinformatics/btac588}
             }
         </citation>
     </citations>
