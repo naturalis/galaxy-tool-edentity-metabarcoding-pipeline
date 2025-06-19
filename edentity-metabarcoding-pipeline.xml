@@ -1,4 +1,4 @@
-<tool id="edentity_metabarcoding_pipeline" name="edentity_metabarcoding_pipeline" version="1.4.5">
+<tool id="edentity_metabarcoding_pipeline" name="eDentity Metabarcoding Pipeline" version="1.4.5">
     <description>Pipeline for metabarcoding analysis</description>
     
     <!-- REQUIREMENTS SECTION -->
