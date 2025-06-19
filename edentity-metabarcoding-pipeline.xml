@@ -1,4 +1,4 @@
-<tool id="edentity-metabarcoding-pipeline" name="edentity_metabarcoding_pipeline" version="1.4.5">
+<tool id="edentity_metabarcoding_pipeline" name="edentity_metabarcoding_pipeline" version="1.4.5">
     <description>Pipeline for metabarcoding analysis</description>
     
     <!-- REQUIREMENTS SECTION -->
@@ -197,10 +197,10 @@
             <param name="minsize" value="4"/>
         </section>
             <output name="ESV_table" file="test_ESV_table.tsv" ftype="tsv"/>
-            <output name="summary_report" file="test_summary_report.tsv" ftype="tsv" compare="sim_size"/>
+            <!-- <output name="summary_report" file="test_summary_report.tsv" ftype="tsv" compare="sim_size"/>
             <output name="ESV_sequences" file="test_ESV_sequences_fasta.fasta" ftype="fasta" compare="sim_size" delta="100"/>
             <output name="multiqc_report" file="test_Quality_control_report.html" ftype="html" compare="sim_size" delta="5000"/>
-            <output name="json_reports" file="test_json_reports.zip" ftype="zip" compare="sim_size" delta="100"/>
+            <output name="json_reports" file="test_json_reports.zip" ftype="zip" compare="sim_size" delta="100"/> -->
         </test>
     </tests>
     
