@@ -38,37 +38,37 @@ jobs:
           planemo test  edentity-metabarcoding-pipeline.xml
           echo "Tests passed successfully"
 
-  # deploy:
-  #   needs: test
-  #   if: startsWith(github.ref, 'refs/tags/v')
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
+  deploy:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-  #     - name: Create Planemo config
-  #       env:
-  #         USER: ${{ secrets.USER }}
-  #         KEY: ${{ secrets.KEY }}
-  #         EMAIL: ${{ secrets.EMAIL }}
-  #         PASS: ${{ secrets.PASS }}
-  #       run: |
-  #         mkdir -p $HOME/.planemo
-  #         cat > $HOME/.planemo.yml << EOF
-  #         shed_username: $USER # your ToolShed username
-  #         sheds:
-  #           toolshed:
-  #             key: $KEY        # your ToolShed API key, under 'User > API Keys'
-  #             email: $EMAIL    # your ToolShed email
-  #             password: $PASS  # your ToolShed password
-  #         EOF
+      - name: Create Planemo config
+        env:
+          USER: ${{ secrets.USER }}
+          KEY: ${{ secrets.KEY }}
+          EMAIL: ${{ secrets.EMAIL }}
+          PASS: ${{ secrets.PASS }}
+        run: |
+          mkdir -p $HOME/.planemo
+          cat > $HOME/.planemo.yml << EOF
+          shed_username: $USER # your ToolShed username
+          sheds:
+            toolshed:
+              key: $KEY        # your ToolShed API key, under 'User > API Keys'
+              email: $EMAIL    # your ToolShed email
+              password: $PASS  # your ToolShed password
+          EOF
 
-  #     - name: Install Planemo
-  #       run: pip install planemo
+      - name: Install Planemo
+        run: pip install planemo
 
-  #     - name: Update Tool Shed
-  #       run: planemo shed_update --shed_target toolshed
+      - name: Update Tool Shed
+        run: planemo shed_update --shed_target toolshed
