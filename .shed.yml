@@ -1,0 +1,13 @@
+name: edentity_metabarcoding_pipeline
+owner: luka
+description: Pipeline for metabarcoding analysis
+long_description: |
+  This tool is a Snakemake based metabarcoding pipeline designed for Illumina/AVITI paired-end data. It automates Vsearch commands to denoise paired-end Fastq sequences and generate Exact Sequence Variants (ESVs).
+remote_repository_url: https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline
+homepage_url: https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline
+type: unrestricted
+categories:
+  - "Metagenomics"
+auto_tool_repositories:
+  name_template: "{{ tool_id }}"
+  description_template: "{{ tool_name }}"
