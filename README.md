@@ -3,6 +3,17 @@ This repository provides a Galaxy tool wrapper for executing the [edentity](http
 
 > **Note:**  
 > Taxonomic identification is not included. The ESVs can be used as input for other taxonomic assignment tools.
+
+## Installation
+This tool can be installed directly from the Galaxy ToolShed. You must be an administrator of your Galaxy instance to install new tools, or you can request your Galaxy admin to install it for you.
+
+1. Log in to your Galaxy instance as an admin.
+2. Navigate to **Admin > Tool Management > Install and Uninstall**.
+3. Search for `eDentity Metabarcoding Pipeline`.
+4. Follow the prompts to install the tool.
+
+For more details, see the [Galaxy ToolShed documentation](https://galaxyproject.org/toolshed/).
+
 ## Input 
 zip folder with fastq sequence files.
 ## Outputs
