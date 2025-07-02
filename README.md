@@ -1,4 +1,11 @@
 # eDentity-metabarcoding-pipeline
+
+- [Installation](#installation)
+- [Input](#input)
+- [Outputs](#outputs)
+- [Programmatic Execution via Galaxy API](#programmatic-execution-via-galaxy-api)
+- [citations](#citations)
+
 This repository provides a Galaxy tool wrapper for executing the [edentity](https://pypi.org/project/edentity/) metabarcoding pipeline within the Galaxy environment. It enables reproducible and scalable analysis of amplicon sequencing data using [Snakemake](https://snakemake.readthedocs.io/) and `vsearch`, generating Exact Sequence Variants (ESVs) for downstream analysis.
 
 > **Note:**  
@@ -25,8 +32,9 @@ zip folder with fastq sequence files.
 
 These outputs support further analysis and interpretation.
 
-## Execution through Bioblend API (via nbitk)
-You can automate the execution of this tool on Galaxy using the [nbitk](https://pypi.org/project/nbitk/) Python package, which provides utilities to run the eDentity Metabarcoding Pipeline through the [Bioblend](https://bioblend.readthedocs.io/) API.  
+## Programmatic Execution via Galaxy API
+You can programmatically execute the eDentity Metabarcoding Pipeline on Galaxy via the API using the [nbitk](https://pypi.org/project/nbitk/) Python package.
+
 **Note:** 
 > The eDentity Metabarcoding Pipeline tool must be installed on your Galaxy instance before you can use the API to execute it.
 
@@ -34,10 +42,9 @@ You can automate the execution of this tool on Galaxy using the [nbitk](https://
 
 Install the required packages:
 ```bash
-pip install nbitk>=0.5.10 bioblend>=1.6.0
+pip install nbitk>0.5.10 bioblend>=1.6.0
 ```
 
-### 1. Initialize Galaxy Client
 
 Set your Galaxy server URL and API key as environment variables:
 ```bash
