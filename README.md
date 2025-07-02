@@ -6,7 +6,7 @@
 - [Programmatic Execution via Galaxy API](#programmatic-execution-via-galaxy-api)
 - [citations](#citations)
 
-This repository provides a Galaxy tool wrapper for executing the [edentity](https://pypi.org/project/edentity/) metabarcoding pipeline within the Galaxy environment. It enables reproducible and scalable analysis of amplicon sequencing data using [Snakemake](https://snakemake.readthedocs.io/) and `vsearch`, generating Exact Sequence Variants (ESVs) for downstream analysis.
+This repository provides a Galaxy tool wrapper for executing the [edentity](https://pypi.org/project/edentity/) metabarcoding pipeline within the Galaxy environment. It enables reproducible and scalable analysis of amplicon sequencing data using [Snakemake](https://snakemake.readthedocs.io/). It denoises amplicon sequences using `vsearch` to generate Exact Sequence Variants (ESVs).
 
 > **Note:**  
 > Taxonomic identification is not included. The ESVs can be used as input for other taxonomic assignment tools.
@@ -46,7 +46,7 @@ pip install nbitk>0.5.10 bioblend>=1.6.0
 ```
 
 
-Set your Galaxy server URL and API key as environment variables:
+Set your Galaxy instance URL and API key as environment variables:
 ```bash
 export GALAXY_DOMAIN="https://your-galaxy-instance"
 export GALAXY_API_KEY="your-api-key"
