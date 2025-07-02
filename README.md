@@ -25,6 +25,98 @@ zip folder with fastq sequence files.
 
 These outputs support further analysis and interpretation.
 
+## Execution through Bioblend API (via nbitk)
+You can automate the execution of this tool on Galaxy using the [nbitk](https://pypi.org/project/nbitk/) Python package, which provides utilities to run the eDentity Metabarcoding Pipeline through the [Bioblend](https://bioblend.readthedocs.io/) API.  
+**Note:** 
+> The eDentity Metabarcoding Pipeline tool must be installed on your Galaxy instance before you can use the API to execute it.
+
+### Requirements
+
+Install the required packages:
+```bash
+pip install nbitk>=0.5.10 bioblend>=1.6.0
+```
+
+### 1. Initialize Galaxy Client
+
+Set your Galaxy server URL and API key as environment variables:
+```bash
+export GALAXY_DOMAIN="https://your-galaxy-instance"
+export GALAXY_API_KEY="your-api-key"
+
+```
+Then, in Python:
+
+```python
+from nbitk.Services.Galaxy.metabarcoding import MetabarcodingToolClient 
+from nbitk.config import Config
+
+# init metabarcoding client
+config = Config()
+config.config_data = {}
+config.initialized = True
+metabarcoding = MetabarcodingToolClient(config)
+
+# Configure Galaxy History
+metabarcoding.config_history(
+    history_name='your history name', # do not set if you want to use a newly created history
+    existing_history=True # do not set if you want to use a newly created history
+)
+
+# Upload zipped FASTQ files
+metabarcoding._upload_file(
+    file_path='path/to/the/fastqs.zip',
+    file_type="zip"
+)
+
+# Define tool parameters
+params = {
+    'project_name': 'name of your project',
+    'data_type': 'Illumina',
+    'input_fastqs': 'fastqs.zip', # name of the dataset you want to run 
+    'n_max': '0',
+    'average_qual': '25',
+    'length_required': '100',
+    'fastq_maxdiffpct': '100',
+    'fastq_maxdiffs': '5',
+    'fastq_minovlen': '10',
+    'forward_primer': 'AAACTCGTGCCAGCCACC',
+    'reverse_primer': 'GGACTACNVGGGTWTCTAAT',
+    'discard_untrimmed': 'True',
+    "anchored": 'True',
+    'minlen': '150',
+    'maxlen': '700',
+    'maxee': '1',
+    'fasta_width': '0',
+    'alpha': '2',
+    'minsize': '4',
+    'create_extended_json_reports': 'False',
+}
+
+# Run the tool
+metabarcoding.run_metabarcoding(params)
+
+# Download specific output files
+metabarcoding.download_results(
+    job_id=metabarcoding.job_id,
+    output_path='test_downloaded_dataset',
+    output_names=[
+        'ESV_table',
+        'multiqc_report',
+        'ESV_sequences',
+        'json_reports',
+        'summary_report'
+    ]
+)
+
+# Or download the entire history as an RO-Crate object
+metabarcoding.export_history_as_rocrate(
+    target_path='test-rocrate-from-production.zip',
+    max_wait=120
+)
+```
+
+
 ## citations
 ```
 - Naturalis Biodiversity Center. (2025). *eDentity metabarcoding Pipeline* [Computer software]. https://github.com/naturalis/galaxy-tool-edentity-metabarcoding-pipeline.git
