@@ -30,6 +30,7 @@ zip folder with fastq sequence files.
 - **ESV_sequences.fasta**: ESV sequences for taxonomic identification.
 - **Quality_control_report.html**: Interactive visualization of quality metrics and read statistics.
 
+
 These outputs support further analysis and interpretation.
 
 ## Programmatic Execution via Galaxy API
@@ -97,7 +98,7 @@ params = {
     'fasta_width': '0',
     'alpha': '2',
     'minsize': '4',
-    'create_extended_json_reports': 'False',
+    'create_extended_json_reports': 'False', # set to True if detailed metrics on ESV is needed
 }
 
 # Run the tool
