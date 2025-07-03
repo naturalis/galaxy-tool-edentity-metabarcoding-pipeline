@@ -118,7 +118,7 @@ metabarcoding.download_results(
 
 # Or download the entire history as an RO-Crate object
 metabarcoding.export_history_as_rocrate(
-    target_path='test-rocrate-from-production.zip',
+    target_path='path/to/export/RO-Crate.zip',  # Export path; should end with '.zip'
     max_wait=120
 )
 ```
