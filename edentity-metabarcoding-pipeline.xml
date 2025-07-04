@@ -1,4 +1,4 @@
-<tool id="edentity_metabarcoding_pipeline" name="eDentity Metabarcoding Pipeline" version="1.4.5">
+<tool id="edentity_metabarcoding_pipeline" name="eDentity Metabarcoding Pipeline" version="1.4.6">
     <description>Pipeline for metabarcoding analysis</description>
     
     <!-- REQUIREMENTS SECTION -->
@@ -10,7 +10,7 @@
         <requirement type="package" version="1.84">biopython</requirement>
         <requirement type="package" version="1.27.1">multiqc</requirement>
         <requirement type="package" version="0.5.9">nbitk</requirement>
-        <requirement type="package" version="1.4.5">edentity</requirement>
+        <requirement type="package" version="1.4.6">edentity</requirement>
         <requirement type="package" version="1.30.0">polars</requirement>
     </requirements>
 
