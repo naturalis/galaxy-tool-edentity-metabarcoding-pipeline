@@ -43,7 +43,7 @@ You can programmatically execute the eDentity Metabarcoding Pipeline on Galaxy v
 
 Install the required packages:
 ```bash
-pip install nbitk>0.5.10 bioblend>=1.6.0
+pip install nbitk>0.5.10 bioblend>=1.6.0 # could also use `conda install -c bioconda  nbitk bioblend`
 ```
 
 
