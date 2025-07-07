@@ -149,8 +149,9 @@
         Outputs:
         - ESV_table: A TSV file containing the ESV (Exact Sequence Variant) table.
         - summary_report: A TSV file containing a summary report of the analysis.
-        - ESV_fasta_zip: A ZIP file containing the ESV sequences in FASTA format.
+        - ESV_sequences: A fasta file containing the ESV sequences in FASTA format.
         - multiqc_report: MultiQC report for quality control summary after trimming.
+        - json_reports: A ZIP file containing JSON reports for each step of the analysis.
     -->
     <outputs>
         <data format="tsv"  name="ESV_table" label="${dataType.project_name}_ESV_table.tsv"/>
