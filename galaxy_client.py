@@ -103,7 +103,7 @@ def outputs(snakemake_work_dir, args_dict):
 
     # zip ESV fasta to the ESV_fastas zip file
     ESV_fasta = os.path.join(snakemake_work_dir, "Results",
-            "ESVs_fasta", f'{args_dict['project_name']}_esv_sequences.fasta')
+            "ESVs_fasta", f"{args_dict['project_name']}_esv_sequences.fasta")
     shutil.move(ESV_fasta, args_dict['ESV_sequences'])
 
     # with zipfile.ZipFile(args_dict['ESV_fasta_zip'], 'w', zipfile.ZIP_DEFLATED) as zipf:
