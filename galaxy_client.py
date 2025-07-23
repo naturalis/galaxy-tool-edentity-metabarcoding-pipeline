@@ -32,9 +32,9 @@ def extract_fastq_files(read_zip_file: str,
     assert zipfile.is_zipfile(read_zip_file), "Input Zip file is not a valid ZIP file"
     with zipfile.ZipFile(read_zip_file, 'r') as ziph:
         names = ziph.namelist()
-        print("Names in zip file:", len(names))
+        print("Number of files:", len(names))
         filenames = get_filenames(names)
-        print("FASTQ Filenames:", len(filenames))
+        print("Number of FASTQs:", len(filenames))
         # only extract the fastq found
         ziph.extractall(path=output_dir, members=filenames, pwd=None)
         # move the fastq files at the root of the output_dir
@@ -88,17 +88,28 @@ def outputs(snakemake_work_dir, args_dict):
     """
     
     # Move the ESV table to the current galaxy working directory
-    esv_table = os.path.join(snakemake_work_dir, "Results", "report", f"{args_dict['project_name']}_ESV_table.tsv")
+    esv_table = os.path.join(
+        snakemake_work_dir,
+        "Results",
+        "report",
+        f"{args_dict['project_name']}_ESV_table.tsv"
+        )
     shutil.move(esv_table, args_dict['ESV_table_output'])
 
     # Move the summary report to the current  galaxy working directory
-    summary_report = os.path.join(snakemake_work_dir, "Results", "report", f"{args_dict['project_name']}_summary_report.tsv")  
+    summary_report = os.path.join(
+        snakemake_work_dir,
+        "Results",
+        "report",
+        f"{args_dict['project_name']}_summary_report.tsv"
+    )
     shutil.move(summary_report, args_dict['summary_report'])
 
     # Move the multiqc report to the current galaxy working directory
     fastp_multiqc_report_path = os.path.join(
         snakemake_work_dir, "Results", "report",
-        f"{args_dict['project_name']}_multiqc_reports", f"{args_dict['project_name']}_multiqc_report.html")
+        f"{args_dict['project_name']}_multiqc_reports",
+        f"{args_dict['project_name']}_multiqc_report.html")
     shutil.move(fastp_multiqc_report_path, args_dict['multiqc_report'])
 
     # zip ESV fasta to the ESV_fastas zip file
@@ -106,18 +117,20 @@ def outputs(snakemake_work_dir, args_dict):
             "ESVs_fasta", f"{args_dict['project_name']}_esv_sequences.fasta")
     shutil.move(ESV_fasta, args_dict['ESV_sequences'])
 
-    # with zipfile.ZipFile(args_dict['ESV_fasta_zip'], 'w', zipfile.ZIP_DEFLATED) as zipf:
-    #     fasta_seqs = [os.path.join(ESV_fasta, file) for file in os.listdir(ESV_fasta)]
-    #     for fasta in fasta_seqs:
-    #         zip_file(fasta, zipf)
-
     # zip json reports
-    json_reports = [json for json in os.listdir(os.path.join(snakemake_work_dir, "Results", "report")) if json.endswith(".json")]
-    with zipfile.ZipFile(args_dict['json_reports'], 'w', zipfile.ZIP_DEFLATED) as zipf:
-        json_file_paths = [os.path.join(snakemake_work_dir, "Results", "report", json) for json in json_reports]
+    json_reports = [
+        json for json in os.listdir(
+            os.path.join(snakemake_work_dir, "Results", "report")
+        ) if json.endswith(".json")
+    ]
+    with zipfile.ZipFile(args_dict['json_reports'], 'w',
+                         zipfile.ZIP_DEFLATED) as zipf:
+        json_file_paths = [
+            os.path.join(snakemake_work_dir, "Results", "report", json)
+            for json in json_reports
+        ]
         for json in json_file_paths:
             zip_file(json, zipf)
-
 
 
 
