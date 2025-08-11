@@ -79,17 +79,17 @@ metabarcoding._upload_file(
 
 # Define tool parameters
 params = {
-    'project_name': 'name of your project',
-    'data_type': 'Illumina',
-    'input_fastqs': 'fastqs.zip', # name of the dataset you want to run 
+    'project_name': # name of your project; must not have spaces
+    'data_type': 'Illumina', # [Illumina, AVITI], one of the two
+    'input_fastqs': # name of the dataset you want to run e.g 'fastqs.zip', 
     'n_max': '0',
     'average_qual': '25',
     'length_required': '100',
     'fastq_maxdiffpct': '100',
     'fastq_maxdiffs': '5',
     'fastq_minovlen': '10',
-    'forward_primer': 'forward primer sequence; comma separated if more than one',
-    'reverse_primer': 'reverse primer sequence; comma separated if more than one',
+    'forward_primer':  # forward primer sequence; comma separated if more than one,
+    'reverse_primer': # reverse primer sequence; comma separated if more than one,
     'discard_untrimmed': 'True',
     "anchored": 'True',
     'minlen': '150',
