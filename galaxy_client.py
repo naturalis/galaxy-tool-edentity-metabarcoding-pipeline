@@ -301,57 +301,66 @@ def main():
         os.getcwd(),
         args_dict['project_name']
         ) # this is not where galaxy work dir is
-    galaxy_work_dir = os.getcwd()
-   
-    # extract the fastq files
-    extract_fastq_files(
-        args_dict['input_fastqs'],
-        input_data_dir
-        )
+    
+    
+    try:
+        # extract the fastq files
+        extract_fastq_files(
+            args_dict['input_fastqs'],
+            input_data_dir
+            )
+    except Exception as e:
+        print(f"Error\n{e}", file=sys.stderr)
+        raise
+    try:
+        # set the edentity command   
+        cmd = [
+            "edentity",
+            "--raw_data_dir", input_data_dir,
+            "--dataType", args_dict['dataType'],
+            "--work_dir", snakemake_work_dir,
+            "--forward_primer", args_dict['forward_primer'],
+            "--reverse_primer", args_dict['reverse_primer'],
+        ]
 
-    # set the edentity command   
-    cmd = [
-        "edentity",
-        "--raw_data_dir", input_data_dir,
-        "--dataType", args_dict['dataType'],
-        "--work_dir", snakemake_work_dir,
-        "--forward_primer", args_dict['forward_primer'],
-        "--reverse_primer", args_dict['reverse_primer'],
-    ]
+        # Only add if True
+        if str(args_dict['create_extended_json_reports']).lower() in ("true", "1"):
+            cmd.append("--make_json_reports")
+        if str(args_dict['discard_untrimmed']).lower() in ("true", "1"):
+            cmd.extend(["--discard_untrimmed"])
+        if str(args_dict['anchored']).lower() in ("true", "1"):
+            cmd.extend(["--anchoring"])
 
-    # Only add if True
-    if str(args_dict['create_extended_json_reports']).lower() in ("true", "1"):
-        cmd.append("--make_json_reports")
-    if str(args_dict['discard_untrimmed']).lower() in ("true", "1"):
-        cmd.extend(["--discard_untrimmed"])
-    if str(args_dict['anchored']).lower() in ("true", "1"):
-        cmd.extend(["--anchoring"])
+        cmd.extend([
+            "--n_base_limit", str(args_dict['n_max']),
+            "--average_qual", str(args_dict['average_qual']),
+            "--length_required", str(args_dict['length_required']),
+            "--maxdiffpct", str(args_dict['fastq_maxdiffpct']),
+            "--minovlen", str(args_dict['fastq_minovlen']),
+            "--maxdiffs", str(args_dict['fastq_maxdiff']),
+            "--min_length", str(args_dict['minlen']),
+            "--max_length", str(args_dict['maxlen']),
+            "--maxEE", str(args_dict['maxee']),
+            "--fasta_width", str(args_dict['fasta_width']),
+            "--alpha", str(args_dict['alpha']),
+            "--minsize", str(args_dict['minsize']),
+            
+        ])
 
-    cmd.extend([
-        "--n_base_limit", str(args_dict['n_max']),
-        "--average_qual", str(args_dict['average_qual']),
-        "--length_required", str(args_dict['length_required']),
-        "--maxdiffpct", str(args_dict['fastq_maxdiffpct']),
-        "--minovlen", str(args_dict['fastq_minovlen']),
-        "--maxdiffs", str(args_dict['fastq_maxdiff']),
-        "--min_length", str(args_dict['minlen']),
-        "--max_length", str(args_dict['maxlen']),
-        "--maxEE", str(args_dict['maxee']),
-        "--fasta_width", str(args_dict['fasta_width']),
-        "--alpha", str(args_dict['alpha']),
-        "--minsize", str(args_dict['minsize']),
-        
-    ])
-
-    # run the edentity cmd
-    edentityCmd(cmd)
-
-    # get the output files: NB smakemake_work_dir is project_name.
-    outputs(
-        snakemake_work_dir,
-        args_dict
-        )
-
+        # run the edentity cmd
+        edentityCmd(cmd)
+    except Exception as e:
+        print(f"Error running edentity cmd\n{e}", file=sys.stderr)
+        raise
+        # get the output files: NB smakemake_work_dir is project_name.
+    try:
+        outputs(
+            snakemake_work_dir,
+            args_dict
+            )
+    except Exception as e:
+        print(f"Error prepraring galaxy outputs\n{e}", file=sys.stderr)
+        raise
 
 if __name__ == '__main__':
     main()
