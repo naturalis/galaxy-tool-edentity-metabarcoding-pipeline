@@ -25,10 +25,38 @@ For more details, see the [Galaxy ToolShed documentation](https://galaxyproject.
 zip folder with fastq sequence files.
 ## Outputs
 
-- **ESV_table.tsv**: Abundance of each ESV per sample.
-- **summary_report.tsv**: Summary of reads at each analysis step.
-- **ESV_sequences.fasta**: ESV sequences for taxonomic identification.
-- **Quality_control_report.html**: Interactive visualization of quality metrics and read statistics.
+#### 1. ESV_table.tsv: Abundance of each ESV per sample.
+
+| ESV_NO | ESV_ID                              | Sample1 | Sample2 | sequence                   |
+|--------|-------------------------------------|---------|---------|----------------------------|
+| ESV_1  | 9bc4f41860c78e9560383d55ef9e9681a650c125 | 324091  | 353306  | GCGGTTAAACGAGAGGCCCTAGT    |
+| ESV_2  | 062c4dccaa466a10caf68ac0c4ccb5f56d7eebf1 | 20556   | 22734   | GCGGTTAAACGAGAGGCCCTAGT    |
+| ESV_3  | 298ec38310894016e0ba9b3e3eb2f73a9167a678 | 4350    | 4866    | GCGGTTAAACGAGAGGCCCTAGT    |
+| ESV_4  | dd5dd0619e9006a570699de9398031364d43a266 | 2940    | 3311    | GCGGTTAAACGAGAGGCCCTAGTTAATAATACACGG |
+
+#### 2. Summary_report.tsv: Summary of reads at each analysis step.
+
+
+| Sample   | total_reads | fastp_filtered | merged | merged_percent | trimmed | vsearch_filtered | dereplicated | denoised | chimeric | borderline | n_esv |
+|----------|-------------|----------------|--------|----------------|---------|------------------|--------------|----------|----------|------------|-------|
+| Sample1  | 556245      | 533823         | 529890 | 99.26          | 529890  | 528714           | 27044        | 2449     | 22       | 0          | 103   |
+| NC1      | 32          | 22             | 22     | 100.00         | 22      | 21               | 18           | 0        | 0        | 0          | 0     |
+| Sample2  | 607699      | 583939         | 579515 | 99.24          | 579515  | 578221           | 28854        | 2668     | 26       | 0          | 105   |
+
+#### 3. ESV_sequences.fasta: ESV sequences for taxonomic identification.
+```
+>9bc4f41860c78e9560383d55ef9e9681a650c125
+GCGGTTAAACGAGAGGCCCTAGT
+>062c4dccaa466a10caf68ac0c4ccb5f56d7eebf1
+GCGGTTAAACGAGAGGCCCTAGT
+>dd5dd0619e9006a570699de9398031364d43a266
+GCGGTTAAACGAGAGGCCCTAGTTAATAATACACGG 
+```
+#### 4. Quality_control_report.html: An interactive visualization of quality metrics and read statistics.
+![Example plot](fastp_filtered_reads_plot.png)
+
+*Figure: Example plot showing the distribution of reads after fastp filtering across samples. The HTML report includes many other interactive plots visualizing each step of the analysis pipeline.*
+
 
 
 These outputs support further analysis and interpretation.
