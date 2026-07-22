@@ -128,7 +128,7 @@
 
         <!-- Denoising -->
         <section name="Denoise" title="Denoising: vsearch cluster_unoise" expanded="true">
-            <param name="alpha" type="integer" value="2" label="alpha"
+            <param name="alpha" type="float" value="2" label="alpha"
             help="Threshold for what is considered a distinct sequence. Example;
             Alpha  value of 2 means the sequences must differ by at least 2 
             substitutions to be considered unique"/>
