@@ -129,9 +129,7 @@
         <!-- Denoising -->
         <section name="Denoise" title="Denoising: vsearch cluster_unoise" expanded="true">
             <param name="alpha" type="float" value="2" label="alpha"
-            help="Threshold for what is considered a distinct sequence. Example;
-            Alpha  value of 2 means the sequences must differ by at least 2 
-            substitutions to be considered unique"/>
+            help="Alpha controls how strictly VSEARCH filters out sequencing errors. A higher value makes error correction stricter, keeping fewer distinct sequences. A lower value is more permissive, keeping more distinct sequences."/>
             <param name="minsize" type="integer" value="4" label="minsize"
             help="Defines the minimum number of sequences required for a cluster to be considered valid;
             if a cluster contains fewer sequences than the specified minsize, it will be discarded."/>
