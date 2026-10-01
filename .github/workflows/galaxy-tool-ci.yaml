@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Planemo
         run: |
-          pip install planemo
+          pip install "planemo>=0.75.46"
           planemo --version
 
       - name: Lint Galaxy tool
@@ -68,7 +68,7 @@ jobs:
           EOF
 
       - name: Install Planemo
-        run: pip install planemo
+        run: pip install "planemo>=0.75.46"
 
       - name: Update Tool Shed
         run: planemo shed_update --shed_target toolshed
