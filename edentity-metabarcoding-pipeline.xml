@@ -12,6 +12,7 @@
         <requirement type="package" version="0.5.9">nbitk</requirement>
         <requirement type="package" version="1.5.8">edentity</requirement>
         <requirement type="package" version="1.30.0">polars</requirement>
+        <container type="docker">ghcr.io/naturalis/galaxy-tool-edentity-metabarcoding-pipeline:v1</container>
     </requirements>
 
     <!-- COMMAND SECTION -->
